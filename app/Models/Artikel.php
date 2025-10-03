@@ -25,6 +25,7 @@ class Artikel extends Model implements HasMedia
 
     public function kategori(): BelongsTo
     {
-        return $this->belongsTo(Kategori::class, 'kategori_id');
+        // GANTI DI SINI
+        return $this->belongsTo(KategoriArtikel::class, 'kategori_id');
     }
 }

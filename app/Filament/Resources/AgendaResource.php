@@ -3,32 +3,23 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\AgendaResource\Pages;
-use App\Models\Agenda;
-use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Resources\Resource;
-use Filament\Tables;
-use Filament\Tables\Table;
-use Illuminate\Support\Str;
 use App\Filament\Resources\AgendaResource\RelationManagers\KehadiransRelationManager;
-use App\Models\Agenda;
+// Model 'Agenda' sudah secara otomatis dikenali oleh Resource, jadi tidak perlu di-import lagi.
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Support\Str;
-
 
 class AgendaResource extends Resource
 {
-    protected static ?string $model = Agenda::class;
+    protected static ?string $model = \App\Models\Agenda::class; // Menggunakan FQCN untuk menghindari ambiguitas
     protected static ?string $navigationIcon = 'heroicon-o-calendar-days';
     protected static ?string $navigationLabel = 'Agenda Kegiatan';
     protected static ?string $modelLabel = 'Agenda';
     protected static ?string $pluralModelLabel = 'Agenda';
     protected static ?string $navigationGroup = 'Manajemen Organisasi';
-
 
     public static function form(Form $form): Form
     {
@@ -39,7 +30,7 @@ class AgendaResource extends Resource
                     ->required()
                     ->live(onBlur: true)
                     ->afterStateUpdated(fn (Forms\Set $set, ?string $state) => $set('slug', Str::slug($state))),
-                Forms\Components\TextInput::make('slug')->required()->unique(Agenda::class, 'slug', ignoreRecord: true),
+                Forms\Components\TextInput::make('slug')->required()->unique(\App\Models\Agenda::class, 'slug', ignoreRecord: true),
                 Forms\Components\RichEditor::make('deskripsi')->columnSpanFull(),
                 Forms\Components\TextInput::make('lokasi')->required(),
                 Forms\Components\DateTimePicker::make('waktu_mulai')->required(),
@@ -76,10 +67,9 @@ class AgendaResource extends Resource
     public static function getRelations(): array
     {
         return [
-            KehadiransRelationManager::class, 
+            KehadiransRelationManager::class,
         ];
     }
-
 
     public static function getPages(): array
     {
