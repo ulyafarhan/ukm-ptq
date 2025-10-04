@@ -12,8 +12,7 @@ class TentangKamiController extends Controller
     {
         $periodeAktif = Periode::where('is_active', true)->with('departemens')->first();
 
-        // Perbaikan: Hapus awalan 'Publik/'
-        return Inertia::render('TentangKami', [
+        return Inertia::render('Publik/TentangKami', [
             'periodeAktif' => $periodeAktif,
         ]);
     }

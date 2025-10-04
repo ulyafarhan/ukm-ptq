@@ -18,8 +18,7 @@ class AgendaController extends Controller
                                ->orderBy('waktu_mulai', 'desc')
                                ->paginate(5);
 
-        // Perbaikan: Hapus awalan 'Publik/'
-        return Inertia::render('Agenda/Indeks', [
+        return Inertia::render('Publik/Agenda/Indeks', [
             'agendaAkanDatang' => $agendaAkanDatang,
             'arsipAgenda' => $arsipAgenda,
         ]);

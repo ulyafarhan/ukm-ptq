@@ -18,8 +18,7 @@ class BerandaController extends Controller
                          ->take(3)
                          ->get();
 
-        // Perbaikan: Hapus awalan 'Publik/'
-        return Inertia::render('Beranda', [
+        return Inertia::render('Publik/Beranda', [
             'artikels' => $artikels,
             'agendas' => $agendas,
         ]);

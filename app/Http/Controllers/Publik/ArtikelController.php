@@ -14,14 +14,13 @@ class ArtikelController extends Controller
     {
         $query = Artikel::with(['kategoriArtikel', 'user'])->latest();
 
-        if ($request->has('kategori')) {
+        if ($request->filled('kategori')) {
             $query->whereHas('kategoriArtikel', function ($q) use ($request) {
                 $q->where('slug', $request->kategori);
             });
         }
         
-        // Perbaikan: Hapus awalan 'Publik/'
-        return Inertia::render('Artikel/Indeks', [
+        return Inertia::render('Publik/Artikel/Indeks', [
             'artikels' => $query->paginate(9)->withQueryString(),
             'kategoris' => KategoriArtikel::all(),
             'filterAktif' => $request->kategori ?? 'semua',
@@ -32,8 +31,7 @@ class ArtikelController extends Controller
     {
         $artikel->load(['kategoriArtikel', 'user']);
 
-        // Perbaikan: Hapus awalan 'Publik/'
-        return Inertia::render('Artikel/Tampil', [
+        return Inertia::render('Publik/Artikel/Tampil', [
             'artikel' => $artikel,
         ]);
     }

@@ -1,10 +1,10 @@
 <?php
 
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Publik\AgendaController;
+use App\Http\Controllers\Publik\ArtikelController;
 use App\Http\Controllers\Publik\BerandaController;
 use App\Http\Controllers\Publik\TentangKamiController;
-use App\Http\Controllers\Publik\ArtikelController;
-use App\Http\Controllers\Publik\AgendaController;
-use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -18,6 +18,7 @@ Route::get('/tentang-kami', [TentangKamiController::class, 'index'])->name('tent
 Route::get('/jurnal', [ArtikelController::class, 'index'])->name('artikel.index');
 Route::get('/jurnal/{artikel:slug}', [ArtikelController::class, 'show'])->name('artikel.show');
 Route::get('/agenda', [AgendaController::class, 'index'])->name('agenda.index');
+
 
 /*
 |--------------------------------------------------------------------------
@@ -34,4 +35,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__ . '/auth.php';
+require __DIR__.'/auth.php';
