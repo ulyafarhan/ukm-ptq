@@ -1,7 +1,7 @@
 import { Head, Link } from '@inertiajs/react';
 import PublicLayout from '@/Layouts/PublicLayout';
 
-export default function Show({ artikel }) {
+export default function Tampil({ artikel }) {
     const formatDate = (dateString) => {
         const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
         return new Date(dateString).toLocaleDateString('id-ID', options).replace(/\./g, ':');
@@ -32,8 +32,6 @@ export default function Show({ artikel }) {
                             className="rounded-xl shadow-lg mb-8"
                         />
                         <p>{artikel.isi}</p>
-                        {/* Jika Anda menggunakan rich text editor, Anda bisa merender HTML di sini */}
-                        {/* <div dangerouslySetInnerHTML={{ __html: artikel.isi }} /> */}
                     </div>
                 </article>
             </main>

@@ -10,7 +10,6 @@ class AgendaController extends Controller
 {
     public function index()
     {
-        // Memisahkan agenda yang akan datang dan yang sudah lewat
         $agendaAkanDatang = Agenda::where('waktu_mulai', '>=', now())
                                  ->orderBy('waktu_mulai', 'asc')
                                  ->get();
@@ -19,7 +18,8 @@ class AgendaController extends Controller
                                ->orderBy('waktu_mulai', 'desc')
                                ->paginate(5);
 
-        return Inertia::render('Publik/Agenda/Index', [
+        // Perbaikan: Hapus awalan 'Publik/'
+        return Inertia::render('Agenda/Indeks', [
             'agendaAkanDatang' => $agendaAkanDatang,
             'arsipAgenda' => $arsipAgenda,
         ]);

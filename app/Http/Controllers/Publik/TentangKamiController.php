@@ -10,9 +10,11 @@ class TentangKamiController extends Controller
 {
     public function index()
     {
+        $periodeAktif = Periode::where('is_active', true)->with('departemens')->first();
 
-
-        return Inertia::render('Publik/TentangKami', [
+        // Perbaikan: Hapus awalan 'Publik/'
+        return Inertia::render('TentangKami', [
+            'periodeAktif' => $periodeAktif,
         ]);
     }
 }

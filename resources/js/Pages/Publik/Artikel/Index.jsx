@@ -1,7 +1,7 @@
 import { Head, Link } from '@inertiajs/react';
 import PublicLayout from '@/Layouts/PublicLayout';
 
-export default function Index({ artikels, kategoris, filterAktif }) {
+export default function Indeks({ artikels, kategoris, filterAktif }) {
     const truncateText = (text, length) => {
         if (!text) return '';
         return text.length > length ? text.substring(0, length) + '...' : text;
@@ -10,7 +10,6 @@ export default function Index({ artikels, kategoris, filterAktif }) {
     return (
         <PublicLayout>
             <Head title="Jurnal Perjalanan - UKM PTQ UNIMAL" />
-
             <main>
                 <section className="bg-gray-50 pt-32 pb-20 text-center">
                     <div className="max-w-4xl mx-auto px-6">
@@ -20,8 +19,6 @@ export default function Index({ artikels, kategoris, filterAktif }) {
                         </p>
                     </div>
                 </section>
-
-                {/* Bagian Filter Kategori */}
                 <div className="bg-gray-50 pb-16">
                     <div className="flex justify-center items-center flex-wrap gap-3 px-6">
                         <Link 
@@ -45,8 +42,6 @@ export default function Index({ artikels, kategoris, filterAktif }) {
                         ))}
                     </div>
                 </div>
-
-
                 <section className="py-20 lg:py-24 bg-white">
                     <div className="max-w-7xl mx-auto px-6 lg:px-8">
                         {artikels.data.length > 0 ? (
@@ -87,8 +82,6 @@ export default function Index({ artikels, kategoris, filterAktif }) {
                                 <p className="mt-2 text-gray-500">Belum ada jurnal perjalanan yang cocok dengan filter ini.</p>
                             </div>
                         )}
-
-                        {/* Pagination Links */}
                         <div className="mt-20 flex justify-center items-center space-x-1">
                             {artikels.links.map((link, index) => {
                                 if (!link.url) {

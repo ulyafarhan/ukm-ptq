@@ -6,7 +6,7 @@ export default function PublicLayout({ children }) {
     const { auth } = usePage().props;
 
     return (
-        <div className="bg-white text-gray-700 font-sans">
+        <div className="bg-white text-gray-700 font-sans antialiased">
             <PublicHeader auth={auth} />
             <main>{children}</main>
             <PublicFooter />

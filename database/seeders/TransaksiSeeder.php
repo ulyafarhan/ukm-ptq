@@ -12,30 +12,23 @@ class TransaksiSeeder extends Seeder
 {
     public function run(): void
     {
-        $penanggungJawab = User::first();
-        $kasUtama = Kas::where('nama', 'Kas Utama UKM')->first();
-        
-        $pemasukan = KategoriTransaksi::where('jenis', 'Pemasukan')->get();
-        $pengeluaran = KategoriTransaksi::where('jenis', 'Pengeluaran')->get();
+        $users = User::all();
+        $kas = Kas::all();
+        $kategoriPemasukan = KategoriTransaksi::where('jenis', 'Pemasukan')->get();
+        $kategoriPengeluaran = KategoriTransaksi::where('jenis', 'Pengeluaran')->get();
 
-        Transaksi::create([
-            'kas_id' => $kasUtama->id,
-            'kategori_transaksi_id' => $pemasukan->random()->id,
-            'penanggung_jawab_id' => $penanggungJawab->id,
-            'keterangan' => 'Donasi awal dari pembina UKM',
-            'tipe' => 'Pemasukan',
-            'jumlah' => 2000000,
-            'tanggal' => now()->subDays(10),
-        ]);
-
-        Transaksi::create([
-            'kas_id' => $kasUtama->id,
-            'kategori_transaksi_id' => $pengeluaran->random()->id,
-            'penanggung_jawab_id' => $penanggungJawab->id,
-            'keterangan' => 'Pembelian printer untuk sekretariat',
-            'tipe' => 'Pengeluaran',
-            'jumlah' => 1500000,
-            'tanggal' => now()->subDays(5),
-        ]);
+        // Buat 15 Transaksi
+        for ($i = 0; $i < 15; $i++) {
+            $isPemasukan = rand(0, 1);
+            Transaksi::create([
+                'kas_id' => $kas->random()->id,
+                'kategori_transaksi_id' => $isPemasukan ? $kategoriPemasukan->random()->id : $kategoriPengeluaran->random()->id,
+                'penanggung_jawab_id' => $users->random()->id,
+                'keterangan' => fake()->sentence(),
+                'tipe' => $isPemasukan ? 'Pemasukan' : 'Pengeluaran',
+                'jumlah' => rand(50, 500) * 1000,
+                'tanggal' => fake()->dateTimeBetween('-1 year', 'now'),
+            ]);
+        }
     }
 }

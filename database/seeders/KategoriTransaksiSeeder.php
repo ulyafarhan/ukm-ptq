@@ -9,17 +9,18 @@ class KategoriTransaksiSeeder extends Seeder
 {
     public function run(): void
     {
-        // Pemasukan
-        KategoriTransaksi::create(['nama' => 'Sumbangan Donatur', 'jenis' => 'Pemasukan']);
-        KategoriTransaksi::create(['nama' => 'Penjualan Produk', 'jenis' => 'Pemasukan']);
-        KategoriTransaksi::create(['nama' => 'Iuran Anggota', 'jenis' => 'Pemasukan']);
-        KategoriTransaksi::create(['nama' => 'Dana Kegiatan', 'jenis' => 'Pemasukan']);
-
-        // Pengeluaran
-        KategoriTransaksi::create(['nama' => 'Biaya ATK', 'jenis' => 'Pengeluaran']);
-        KategoriTransaksi::create(['nama' => 'Biaya Konsumsi Rapat', 'jenis' => 'Pengeluaran']);
-        KategoriTransaksi::create(['nama' => 'Biaya Transportasi', 'jenis' => 'Pengeluaran']);
-        KategoriTransaksi::create(['nama' => 'Pembelian Aset', 'jenis' => 'Pengeluaran']);
-        KategoriTransaksi::create(['nama' => 'Modal Usaha', 'jenis' => 'Pengeluaran']);
+        KategoriTransaksi::insert([
+            ['nama' => 'Sumbangan Donatur', 'jenis' => 'Pemasukan'],
+            ['nama' => 'Penjualan Produk Store', 'jenis' => 'Pemasukan'],
+            ['nama' => 'Iuran Anggota Bulanan', 'jenis' => 'Pemasukan'],
+            ['nama' => 'Dana Hibah Universitas', 'jenis' => 'Pemasukan'],
+            ['nama' => 'Hasil Usaha Lainnya', 'jenis' => 'Pemasukan'],
+            ['nama' => 'Biaya ATK Sekretariat', 'jenis' => 'Pengeluaran'],
+            ['nama' => 'Biaya Konsumsi Rapat', 'jenis' => 'Pengeluaran'],
+            ['nama' => 'Biaya Transportasi & Akomodasi', 'jenis' => 'Pengeluaran'],
+            ['nama' => 'Pembelian Aset & Inventaris', 'jenis' => 'Pengeluaran'],
+            ['nama' => 'Biaya Penyelenggaraan Acara', 'jenis' => 'Pengeluaran'],
+            ['nama' => 'Modal Usaha PTQ Store', 'jenis' => 'Pengeluaran'],
+        ]);
     }
 }

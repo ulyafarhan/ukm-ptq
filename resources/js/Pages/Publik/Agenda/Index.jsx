@@ -1,7 +1,7 @@
 import { Head, Link } from '@inertiajs/react';
 import PublicLayout from '@/Layouts/PublicLayout';
 
-export default function Index({ agendaAkanDatang, arsipAgenda }) {
+export default function Indeks({ agendaAkanDatang, arsipAgenda }) {
     const formatDate = (dateString) => {
         const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
         return new Date(dateString).toLocaleDateString('id-ID', options);
@@ -21,7 +21,6 @@ export default function Index({ agendaAkanDatang, arsipAgenda }) {
                     </div>
                 </section>
 
-                {/* Agenda Akan Datang */}
                 <section className="py-20 lg:py-24">
                     <div className="max-w-4xl mx-auto px-6 lg:px-8">
                         <h2 className="text-3xl font-bold text-gray-900 mb-10 text-center">Akan Datang</h2>
@@ -44,7 +43,6 @@ export default function Index({ agendaAkanDatang, arsipAgenda }) {
                     </div>
                 </section>
 
-                {/* Arsip Agenda */}
                 <section className="py-20 lg:py-24 bg-gray-50">
                     <div className="max-w-4xl mx-auto px-6 lg:px-8">
                         <h2 className="text-3xl font-bold text-gray-900 mb-10 text-center">Arsip Jejak Langkah</h2>
@@ -63,7 +61,6 @@ export default function Index({ agendaAkanDatang, arsipAgenda }) {
                             ))}
                         </div>
 
-                        {/* Pagination untuk Arsip */}
                         <div className="mt-12 flex justify-center items-center space-x-1">
                             {arsipAgenda.links.map((link, index) => {
                                 if (!link.url) {

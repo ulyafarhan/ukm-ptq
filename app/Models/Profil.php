@@ -10,10 +10,18 @@ class Profil extends Model
 {
     use HasFactory;
 
-    protected $guarded = ['id'];
+    // Perbaikan: Mencocokkan dengan kolom di file migrasi
+    protected $fillable = [
+        'user_id',
+        'nim',
+        'angkatan',
+        'jabatan',
+        'nomor_telepon',
+        'alamat',
+    ];
 
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(User::class);
     }
 }

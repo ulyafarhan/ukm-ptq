@@ -17,10 +17,15 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use App\Filament\Pages\Dashboard;
+use App\Filament\Widgets\AgendaTerdekatWidget;
+use App\Filament\Widgets\AnggotaBaruWidget;
+use App\Filament\Widgets\StatsOverview;
+use App\Filament\Widgets\TransaksiChart;
 
 class AdminPanelProvider extends PanelProvider
 {
-    public function panel(Panel $panel): Panel
+public function panel(Panel $panel): Panel
     {
         return $panel
             ->default()
@@ -33,11 +38,16 @@ class AdminPanelProvider extends PanelProvider
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
-                Pages\Dashboard::class,
+                // Ganti Pages\Dashboard::class menjadi Dashboard::class kustom kita
+                Dashboard::class,
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
-                KasWidget::class,
+                // Daftarkan semua widget baru di sini
+                StatsOverview::class,
+                TransaksiChart::class,
+                AnggotaBaruWidget::class,
+                AgendaTerdekatWidget::class,
             ])
             ->middleware([
                 EncryptCookies::class,

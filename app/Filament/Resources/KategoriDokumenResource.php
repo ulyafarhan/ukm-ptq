@@ -13,19 +13,24 @@ use Filament\Tables\Table;
 class KategoriDokumenResource extends Resource
 {
     protected static ?string $model = KategoriDokumen::class;
-    protected static ?string $navigationIcon = 'heroicon-o-folder-open';
-    protected static ?string $navigationLabel = 'Kategori Dokumen';
+
+    protected static ?string $navigationIcon = 'heroicon-o-tag';
+    
+    protected static ?string $navigationGroup = 'Dokumen';
+
+    // TAMBAHKAN PROPERTI DI BAWAH INI
     protected static ?string $modelLabel = 'Kategori Dokumen';
     protected static ?string $pluralModelLabel = 'Kategori Dokumen';
-    protected static ?string $navigationGroup = 'Arsip Digital';
-    protected static ?int $navigationSort = 2; // Urutan di sidebar
+    protected static ?string $navigationLabel = 'Kategori Dokumen';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('nama')->required()->maxLength(255),
-                Forms\Components\Textarea::make('deskripsi')->columnSpanFull(),
+                Forms\Components\TextInput::make('nama')
+                    ->required(),
+                Forms\Components\TextInput::make('slug')
+                    ->required(),
             ]);
     }
 
@@ -33,13 +38,29 @@ class KategoriDokumenResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('nama')->searchable(),
+                Tables\Columns\TextColumn::make('nama'),
+                Tables\Columns\TextColumn::make('slug'),
+            ])
+            ->filters([
+                //
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+            ])
+            ->bulkActions([
+                Tables\Actions\BulkActionGroup::make([
+                    Tables\Actions\DeleteBulkAction::make(),
+                ]),
             ]);
     }
-
+    
+    public static function getRelations(): array
+    {
+        return [
+            //
+        ];
+    }
+    
     public static function getPages(): array
     {
         return [
@@ -47,5 +68,5 @@ class KategoriDokumenResource extends Resource
             'create' => Pages\CreateKategoriDokumen::route('/create'),
             'edit' => Pages\EditKategoriDokumen::route('/{record}/edit'),
         ];
-    }
+    }    
 }

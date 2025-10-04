@@ -12,28 +12,37 @@ class PesananSeeder extends Seeder
 {
     public function run(): void
     {
-        $pengguna = User::first();
-        $baju = Produk::where('nama', 'Baju PDH UKM PTQ')->first();
-        $ganci = Produk::where('nama', 'Gantungan Kunci Logo PTQ')->first();
+        $users = User::all();
+        $produks = Produk::all();
 
-        $pesanan = Pesanan::create([
-            'pengguna_id' => $pengguna->id,
-            'total_harga' => ($baju->harga * 1) + ($ganci->harga * 2),
-            'status' => 'Selesai',
-        ]);
+        for ($i = 0; $i < 10; $i++) {
+            $totalHarga = 0;
+            $items = [];
+            
+            // Setiap pesanan berisi 1-3 produk berbeda
+            $produkPesanan = $produks->random(rand(1, 3));
 
-        DetailPesanan::create([
-            'pesanan_id' => $pesanan->id,
-            'produk_id' => $baju->id,
-            'jumlah' => 1,
-            'harga_satuan' => $baju->harga,
-        ]);
+            foreach ($produkPesanan as $produk) {
+                $jumlah = rand(1, 2);
+                $subtotal = $produk->harga * $jumlah;
+                $totalHarga += $subtotal;
+                $items[] = [
+                    'produk_id' => $produk->id,
+                    'jumlah' => $jumlah,
+                    'harga_satuan' => $produk->harga,
+                ];
+            }
 
-        DetailPesanan::create([
-            'pesanan_id' => $pesanan->id,
-            'produk_id' => $ganci->id,
-            'jumlah' => 2,
-            'harga_satuan' => $ganci->harga,
-        ]);
+            $pesanan = Pesanan::create([
+                'pengguna_id' => $users->random()->id,
+                'total_harga' => $totalHarga,
+                'status' => fake()->randomElement(['Selesai', 'Menunggu Pembayaran', 'Diproses']),
+                'created_at' => fake()->dateTimeBetween('-6 months', 'now'),
+            ]);
+
+            foreach ($items as $item) {
+                DetailPesanan::create(array_merge($item, ['pesanan_id' => $pesanan->id]));
+            }
+        }
     }
 }

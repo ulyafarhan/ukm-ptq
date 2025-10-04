@@ -5,7 +5,6 @@ export default function TentangKami({ periodeAktif }) {
     return (
         <PublicLayout>
             <Head title="Tentang Kami - Kisah & Visi UKM PTQ UNIMAL" />
-
             <main>
                 <section className="bg-gray-900 text-white pt-32 pb-20 text-center">
                     <div className="max-w-4xl mx-auto px-6 animate-fadeInUp">
@@ -15,8 +14,6 @@ export default function TentangKami({ periodeAktif }) {
                         </p>
                     </div>
                 </section>
-
-                {/* Visi & Misi */}
                 <section className="py-20 lg:py-24 bg-white">
                     <div className="max-w-5xl mx-auto px-6 lg:px-8 text-center">
                         <h2 className="text-3xl lg:text-4xl font-bold text-gray-900">Kompas Pergerakan Kami</h2>
@@ -40,8 +37,6 @@ export default function TentangKami({ periodeAktif }) {
                         </div>
                     </div>
                 </section>
-                
-                {/* Struktur Organisasi */}
                 {periodeAktif && (
                     <section className="py-20 lg:py-24 bg-gray-50">
                         <div className="max-w-7xl mx-auto px-6 lg:px-8">

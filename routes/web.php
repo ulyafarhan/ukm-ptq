@@ -1,28 +1,29 @@
 <?php
 
-use App\Http\Controllers\BerandaController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\Publik\ArtikelController; 
-use Illuminate\Foundation\Application;
-use App\Http\Controllers\Publik\AgendaController; 
+use App\Http\Controllers\Publik\BerandaController;
 use App\Http\Controllers\Publik\TentangKamiController;
+use App\Http\Controllers\Publik\ArtikelController;
+use App\Http\Controllers\Publik\AgendaController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-// Rute Halaman Publik
+/*
+|--------------------------------------------------------------------------
+| Rute Publik
+|--------------------------------------------------------------------------
+*/
 Route::get('/', [BerandaController::class, 'index'])->name('beranda');
-Route::get('/tentang-kami', [TentangKamiController::class, 'index'])->name('tentang-kami'); 
-Route::get('/agenda', [AgendaController::class, 'index'])->name('agenda.index'); 
-Route::get('/artikel', [ArtikelController::class, 'index'])->name('artikel.index');
-Route::get('/artikel/{artikel:slug}', [ArtikelController::class, 'show'])->name('artikel.show');
+Route::get('/tentang-kami', [TentangKamiController::class, 'index'])->name('tentang-kami');
+Route::get('/jurnal', [ArtikelController::class, 'index'])->name('artikel.index');
+Route::get('/jurnal/{artikel:slug}', [ArtikelController::class, 'show'])->name('artikel.show');
+Route::get('/agenda', [AgendaController::class, 'index'])->name('agenda.index');
 
-
-// Rute-rute baru untuk Artikel
-Route::get('/artikel', [ArtikelController::class, 'index'])->name('artikel.index');
-Route::get('/artikel/{artikel:slug}', [ArtikelController::class, 'show'])->name('artikel.show');
-
-
-// Rute untuk Area Anggota (setelah login)
+/*
+|--------------------------------------------------------------------------
+| Rute Area Anggota (Memerlukan Login)
+|--------------------------------------------------------------------------
+*/
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
@@ -33,4 +34,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
