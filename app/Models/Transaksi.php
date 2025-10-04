@@ -9,13 +9,33 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Transaksi extends Model
 {
     use HasFactory;
-    protected $guarded = ['id'];
-    protected $casts = [
-        'tanggal' => 'date',
+
+    protected $fillable = [
+        'kas_id',
+        'kategori_transaksi_id',
+        'penanggung_jawab_id',
+        'keterangan',
+        'tipe',
+        'jumlah',
+        'tanggal',
     ];
 
-    public function pencatat(): BelongsTo
+    protected $casts = [
+        'tanggal' => 'datetime',
+    ];
+
+    public function kas(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(Kas::class);
+    }
+
+    public function kategori(): BelongsTo
+    {
+        return $this->belongsTo(KategoriTransaksi::class, 'kategori_transaksi_id');
+    }
+
+    public function penanggungJawab(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'penanggung_jawab_id');
     }
 }

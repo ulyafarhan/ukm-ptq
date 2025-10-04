@@ -13,32 +13,40 @@ use Filament\Tables\Table;
 class TransaksiResource extends Resource
 {
     protected static ?string $model = Transaksi::class;
-    protected static ?string $navigationIcon = 'heroicon-o-banknotes';
-    protected static ?string $navigationLabel = 'Keuangan (Kas)';
-    protected static ?string $modelLabel = 'Transaksi';
-    protected static ?string $pluralModelLabel = 'Transaksi';
-    protected static ?string $navigationGroup = 'Manajemen Organisasi';
+
+    protected static ?string $navigationIcon = 'heroicon-o-arrows-right-left';
+
+    protected static ?string $navigationGroup = 'Keuangan';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\DatePicker::make('tanggal')
-                    ->required()
-                    ->default(now()),
+                Forms\Components\Select::make('kas_id')
+                    ->relationship('kas', 'nama')
+                    ->required(),
+                Forms\Components\Select::make('kategori_transaksi_id')
+                    ->relationship('kategori', 'nama')
+                    ->required(),
+                Forms\Components\Select::make('penanggung_jawab_id')
+                    ->relationship('penanggungJawab', 'name')
+                    ->required(),
                 Forms\Components\Textarea::make('keterangan')
                     ->required()
+                    ->maxLength(65535)
                     ->columnSpanFull(),
-                Forms\Components\Radio::make('jenis')
+                Forms\Components\Select::make('tipe')
+                    ->required()
                     ->options([
-                        'pemasukan' => 'Pemasukan',
-                        'pengeluaran' => 'Pengeluaran',
-                    ])
-                    ->required(),
+                        'Pemasukan' => 'Pemasukan',
+                        'Pengeluaran' => 'Pengeluaran',
+                    ]),
                 Forms\Components\TextInput::make('jumlah')
                     ->required()
                     ->numeric()
                     ->prefix('Rp'),
+                Forms\Components\DateTimePicker::make('tanggal')
+                    ->required(),
             ]);
     }
 
@@ -46,32 +54,44 @@ class TransaksiResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('tanggal')->date('d F Y')->sortable(),
-                Tables\Columns\TextColumn::make('keterangan')->searchable()->limit(50),
-                Tables\Columns\TextColumn::make('jenis')
+                Tables\Columns\TextColumn::make('kas.nama')
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('kategori.nama')
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('tipe')
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
-                        'pemasukan' => 'success',
-                        'pengeluaran' => 'danger',
-                    }),
+                        'Pemasukan' => 'success',
+                        'Pengeluaran' => 'danger',
+                    })
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('jumlah')
-                    ->numeric(locale: 'id')
-                    ->prefix('Rp ')
+                    ->money('IDR')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('pencatat.name')
-                    ->label('Dicatat oleh')
+                Tables\Columns\TextColumn::make('tanggal')
+                    ->dateTime()
                     ->sortable(),
             ])
-            ->defaultSort('tanggal', 'desc')
             ->filters([
                 //
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+            ])
+            ->bulkActions([
+                Tables\Actions\BulkActionGroup::make([
+                    Tables\Actions\DeleteBulkAction::make(),
+                ]),
             ]);
     }
-
+    
+    public static function getRelations(): array
+    {
+        return [
+            //
+        ];
+    }
+    
     public static function getPages(): array
     {
         return [
@@ -79,5 +99,5 @@ class TransaksiResource extends Resource
             'create' => Pages\CreateTransaksi::route('/create'),
             'edit' => Pages\EditTransaksi::route('/{record}/edit'),
         ];
-    }
+    }    
 }
