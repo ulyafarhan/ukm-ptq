@@ -10,7 +10,6 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Hash;
-use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Section; 
 
 class PenggunaResource extends Resource
@@ -46,11 +45,7 @@ class PenggunaResource extends Resource
                             ->dehydrated(fn (?string $state): bool => filled($state))
                             ->required(fn (string $operation): bool => $operation === 'create')
                             ->maxLength(255),
-                        Select::make('roles')
-                            ->label('Peran')
-                            ->multiple()
-                            ->relationship('roles', 'name')
-                            ->preload(),
+                        // Field roles sudah dihapus
                     ])->columns(2),
 
                 Section::make('Detail Profil Anggota')

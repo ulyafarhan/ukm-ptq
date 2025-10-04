@@ -10,7 +10,6 @@ class DatabaseSeeder extends Seeder
     {
         // Panggil seeder yang sudah ada (User dan Peran)
         $this->call(UserSeeder::class);
-        $this->call(PeranDanHakAksesSeeder::class);
 
         // Panggil seeder baru
         $this->call([
@@ -19,6 +18,9 @@ class DatabaseSeeder extends Seeder
             TransaksiSeeder::class,
             ProdukSeeder::class,
             PesananSeeder::class,
+            KategoriArtikelSeeder::class,
+            ArtikelSeeder::class,
+            AgendaSeeder::class,
         ]);
     }
 }

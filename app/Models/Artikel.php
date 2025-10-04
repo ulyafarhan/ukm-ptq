@@ -4,28 +4,33 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Spatie\MediaLibrary\HasMedia;
-use Spatie\MediaLibrary\InteractsWithMedia;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Artikel extends Model implements HasMedia
+class Artikel extends Model
 {
-    use HasFactory, InteractsWithMedia;
+    use HasFactory;
 
-    protected $guarded = ['id'];
-
-    protected $casts = [
-        'tanggal_terbit' => 'datetime',
+    protected $fillable = [
+        'kategori_artikel_id', // pastikan sesuai dengan kolom di tabel
+        'user_id',
+        'judul',
+        'slug',
+        'isi',
     ];
 
-    public function penulis(): BelongsTo
+    /**
+     * Relasi ke kategori artikel
+     */
+    public function kategoriArtikel(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(KategoriArtikel::class, 'kategori_artikel_id');
     }
 
-    public function kategori(): BelongsTo
+    /**
+     * Relasi ke user (penulis artikel)
+     */
+    public function user(): BelongsTo
     {
-        // GANTI DI SINI
-        return $this->belongsTo(KategoriArtikel::class, 'kategori_id');
+        return $this->belongsTo(User::class);
     }
 }

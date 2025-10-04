@@ -10,7 +10,6 @@ use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
-use Filament\Widgets;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
@@ -18,7 +17,6 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
-use App\Http\Middleware\CekAksesPanelAdmin; 
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -39,9 +37,7 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
-                Widgets\AccountWidget::class,
-                Widgets\FilamentInfoWidget::class,
-                KasWidget::class, 
+                KasWidget::class,
             ])
             ->middleware([
                 EncryptCookies::class,
@@ -53,10 +49,10 @@ class AdminPanelProvider extends PanelProvider
                 SubstituteBindings::class,
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
+                // App\Http\Middleware\CekAksesPanelAdmin::class, // Pastikan baris ini dihapus atau dikomentari
             ])
-            ->authMiddleware([ // <-- TAMBAHKAN KEMBALI BLOK INI
+            ->authMiddleware([
                 Authenticate::class,
-                CekAksesPanelAdmin::class, // <-- DENGAN ISI YANG BENAR
             ]);
     }
 }

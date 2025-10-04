@@ -6,23 +6,19 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
-        Schema::create('kategoris', function (Blueprint $table) {
+        // Membuat tabel dengan nama yang benar
+        Schema::create('kategori_artikels', function (Blueprint $table) {
             $table->id();
             $table->string('nama');
-            $table->string('slug')->unique();
+            $table->string('slug')->unique(); // Slug untuk URL yang ramah SEO
             $table->timestamps();
         });
     }
-    /**
-     * Reverse the migrations.
-     */
+
     public function down(): void
     {
-        Schema::dropIfExists('kategoris');
+        Schema::dropIfExists('kategori_artikels');
     }
 };

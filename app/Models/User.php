@@ -2,15 +2,16 @@
 
 namespace App\Models;
 
+use Filament\Models\Contracts\FilamentUser;
+use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasOne; 
 
-
-class User extends Authenticatable
+class User extends Authenticatable implements FilamentUser
 {
     use HasFactory, Notifiable, HasRoles;
 
@@ -19,6 +20,7 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
+    // Perbaikan: Lengkapi array $fillable
     protected $fillable = [
         'name',
         'email',
@@ -50,40 +52,16 @@ class User extends Authenticatable
 
     public function canAccessPanel(Panel $panel): bool
     {
-        // Perbaikan: Hanya memeriksa peran 'super-admin'
         return true;
     }
-
-    protected static function booted(): void
-    {
-        static::created(function ($user) {
-            $user->profil()->create([]);
-        });
-    }
-
+    
     public function profil(): HasOne
     {
         return $this->hasOne(Profil::class, 'user_id');
     }
-
+    
     public function artikels(): HasMany
     {
         return $this->hasMany(Artikel::class, 'user_id');
-    }
-
-    public function departemens(): BelongsToMany
-    {
-        return $this->belongsToMany(Departemen::class, 'pengurus')
-            ->withPivot('jabatan')
-            ->withTimestamps();
-    }
-    public function transaksis(): HasMany
-    {
-        return $this->hasMany(Transaksi::class, 'user_id');
-    }
-
-    public function kehadirans(): HasMany
-    {
-        return $this->hasMany(Kehadiran::class);
     }
 }

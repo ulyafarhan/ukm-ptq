@@ -10,19 +10,20 @@ class KasWidget extends BaseWidget
 {
     protected function getStats(): array
     {
-        $pemasukan = Transaksi::where('jenis', 'pemasukan')->sum('jumlah');
-        $pengeluaran = Transaksi::where('jenis', 'pengeluaran')->sum('jumlah');
-        $saldo = $pemasukan - $pengeluaran;
+        // Perbaikan: Menggunakan kolom 'tipe' bukan 'jenis'
+        $totalPemasukan = Transaksi::where('tipe', 'Pemasukan')->sum('jumlah');
+        $totalPengeluaran = Transaksi::where('tipe', 'Pengeluaran')->sum('jumlah');
+        $saldoAkhir = $totalPemasukan - $totalPengeluaran;
 
         return [
-            Stat::make('Total Pemasukan', 'Rp ' . number_format($pemasukan, 0, ',', '.'))
-                ->description('Semua dana yang masuk')
+            Stat::make('Total Pemasukan', 'Rp ' . number_format($totalPemasukan, 0, ',', '.'))
+                ->description('Seluruh pemasukan tercatat')
                 ->color('success'),
-            Stat::make('Total Pengeluaran', 'Rp ' . number_format($pengeluaran, 0, ',', '.'))
-                ->description('Semua dana yang keluar')
+            Stat::make('Total Pengeluaran', 'Rp ' . number_format($totalPengeluaran, 0, ',', '.'))
+                ->description('Seluruh pengeluaran tercatat')
                 ->color('danger'),
-            Stat::make('Saldo Akhir', 'Rp ' . number_format($saldo, 0, ',', '.'))
-                ->description('Sisa saldo kas saat ini')
+            Stat::make('Saldo Akhir', 'Rp ' . number_format($saldoAkhir, 0, ',', '.'))
+                ->description('Selisih pemasukan dan pengeluaran')
                 ->color('info'),
         ];
     }
