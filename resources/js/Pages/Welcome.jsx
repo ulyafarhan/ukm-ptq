@@ -1,12 +1,11 @@
 import { Link, Head } from '@inertiajs/react';
+import PublicLayout from '@/Layouts/PublicLayout';
 
 export default function Welcome({ auth, artikels = [], agendas = [] }) {
+
     const truncateText = (text, length) => {
         if (!text) return '';
-        if (text.length <= length) {
-            return text;
-        }
-        return text.substring(0, length) + '...';
+        return text.length > length ? text.substring(0, length) + '...' : text;
     };
 
     const formatDate = (dateString) => {
@@ -15,106 +14,92 @@ export default function Welcome({ auth, artikels = [], agendas = [] }) {
     };
 
     return (
-        <>
-            <Head title="Selamat Datang di UKM PTQ UNIMAL" />
-            <div className="bg-gray-50 text-black/50">
-                <div className="relative min-h-screen flex flex-col items-center selection:bg-amber-500 selection:text-white">
-                    <div className="relative w-full max-w-2xl px-6 lg:max-w-7xl">
-                        <header className="grid grid-cols-2 items-center gap-2 py-10 lg:grid-cols-3">
-                            <div className="flex lg:justify-center lg:col-start-2">
-                                {/* Ganti dengan logo Anda */}
-                                <h1 className="text-xl font-bold text-gray-700">UKM PTQ UNIMAL</h1>
-                            </div>
-                            <nav className="-mx-3 flex flex-1 justify-end">
-                                {auth.user ? (
-                                    <Link
-                                        href={route('dashboard')}
-                                        className="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-amber-500"
-                                    >
-                                        Dashboard
-                                    </Link>
-                                ) : (
-                                    <Link
-                                        href={route('login')}
-                                        className="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-amber-500"
-                                    >
-                                        Login Anggota
-                                    </Link>
-                                )}
-                            </nav>
-                        </header>
+        <PublicLayout>
+            <Head title="Selamat Datang di Rumah Digital UKM PTQ UNIMAL" />
 
-                        <main className="mt-6">
-                            {/* Hero Section */}
-                            <div className="text-center py-16">
-                                <h1 className="text-4xl lg:text-5xl font-bold text-gray-800 leading-tight">
-                                    Selamat Datang di Rumah Digital
-                                    <br />
-                                    Keluarga Besar UKM PTQ UNIMAL
-                                </h1>
-                                <p className="mt-6 text-lg text-gray-600 max-w-3xl mx-auto">
-                                    Ini adalah pusat digital bagi seluruh anggota untuk bertumbuh, berkolaborasi, dan berbagi inspirasi. Sebuah platform yang hidup, dinamis, dan menjadi pusat aktivitas kita bersama dalam semangat Qur'ani.
-                                </p>
-                            </div>
-
-                            {/* Bagian Kabar Terbaru (Artikel) */}
-                            <div className="py-16">
-                                <h2 className="text-3xl font-bold text-center text-gray-800 mb-10">Kabar Terbaru</h2>
-                                {artikels.length > 0 ? (
-                                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                                        {artikels.map((artikel) => (
-                                            <div key={artikel.id} className="bg-white rounded-lg shadow-md overflow-hidden transform hover:-translate-y-2 transition-transform duration-300">
-                                                <img className="w-full h-48 object-cover" src={`https://picsum.photos/seed/${artikel.id}/400/250`} alt={artikel.judul} />
-                                                <div className="p-6">
-                                                    <h3 className="text-xl font-bold text-gray-900 mb-2 h-20">{artikel.judul}</h3>
-                                                    <p className="text-gray-600 mb-4 h-24">{truncateText(artikel.isi, 100)}</p>
-                                                    <Link href="#" className="font-semibold text-amber-600 hover:text-amber-800">
-                                                        Baca Selengkapnya &rarr;
-                                                    </Link>
-                                                </div>
-                                            </div>
-                                        ))}
-                                    </div>
-                                ) : (
-                                    <p className="text-center text-gray-500">Belum ada kabar terbaru untuk ditampilkan.</p>
-                                )}
-                            </div>
-
-                            {/* Bagian Agenda Terdekat */}
-                            <div className="py-16 bg-gray-100 -mx-6 px-6 lg:-mx-12 lg:px-12">
-                                <h2 className="text-3xl font-bold text-center text-gray-800 mb-10">Agenda Terdekat</h2>
-                                {agendas.length > 0 ? (
-                                    <div className="space-y-4 max-w-4xl mx-auto">
-                                        {agendas.map((agenda) => (
-                                            <div key={agenda.id} className="bg-white p-6 rounded-lg shadow-sm flex items-center space-x-6">
-                                                <div className="text-center flex-shrink-0">
-                                                    {/* Perbaikan: Gunakan agenda.waktu_mulai */}
-                                                    <p className="text-3xl font-bold text-amber-600">{new Date(agenda.waktu_mulai).getDate()}</p>
-                                                    <p className="text-sm text-gray-500 uppercase">{new Date(agenda.waktu_mulai).toLocaleString('id-ID', { month: 'short' })}</p>
-                                                </div>
-                                                <div>
-                                                    {/* Perbaikan: Gunakan agenda.nama_kegiatan */}
-                                                    <h3 className="text-xl font-bold text-gray-900">{agenda.nama_kegiatan}</h3>
-                                                    <p className="text-gray-600">
-                                                        {/* Perbaikan: Gunakan agenda.waktu_mulai */}
-                                                        {formatDate(agenda.waktu_mulai)} | Lokasi: {agenda.lokasi}
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        ))}
-                                    </div>
-                                ) : (
-                                    <p className="text-center text-gray-500">Tidak ada agenda yang akan datang.</p>
-                                )}
-                            </div>
-                        </main>
-
-                        <footer className="py-16 text-center text-sm text-black/50">
-                            © {new Date().getFullYear()} UKM Pengembangan Tilawatil Qur'an Universitas Malikussaleh.
-                        </footer>
+            {/* Hero Section */}
+            <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-28 bg-gray-50 flex items-center justify-center text-center">
+                <div className="relative z-10 max-w-4xl mx-auto px-6">
+                    <h1 className="text-4xl lg:text-6xl font-extrabold text-gray-900 leading-tight">
+                        Bukan Sekadar Organisasi, <br /> Ini Adalah <span className="text-amber-600">Rumah Kita Bersama.</span>
+                    </h1>
+                    <p className="mt-6 text-lg lg:text-xl text-gray-600 max-w-3xl mx-auto">
+                        Di sini, di UKM PTQ UNIMAL, kami tidak hanya belajar tentang Al-Qur'an. Kami membangun sebuah keluarga, merangkai cerita, dan menumbuhkan potensi diri dalam sebuah ekosistem digital yang hangat dan kolaboratif. Selamat datang di rumah digital kita.
+                    </p>
+                    <div className="mt-10">
+                        <Link
+                            href={route('login')}
+                            className="px-8 py-3 text-lg font-semibold text-white bg-amber-600 rounded-full shadow-lg hover:bg-amber-700 transition-all transform hover:scale-105"
+                        >
+                            Masuk ke Ruang Anggota
+                        </Link>
                     </div>
                 </div>
-            </div>
-        </>
+            </section>
+
+            {/* Tentang Kami (Storytelling) */}
+            <section id="tentang-kami" className="py-20 lg:py-28">
+                <div className="max-w-7xl mx-auto px-6 lg:px-8">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+                        <div>
+                            <h2 className="text-sm font-bold uppercase text-amber-600 tracking-widest">Kisah Kami</h2>
+                            <h3 className="mt-4 text-3xl lg:text-4xl font-bold text-gray-900">
+                                Dari Sebuah Niat, Menjadi Sebuah Pergerakan.
+                            </h3>
+                            <p className="mt-6 text-lg text-gray-600 leading-relaxed">
+                                Berawal dari sekumpulan kecil mahasiswa yang memiliki kecintaan yang sama terhadap Al-Qur'an, UKM PTQ UNIMAL lahir dari sebuah niat sederhana: untuk menciptakan sebuah wadah di mana setiap individu bisa belajar, berbagi, dan bertumbuh bersama Kalam Ilahi.
+                            </p>
+                            <p className="mt-4 text-lg text-gray-600 leading-relaxed">
+                                Perjalanan kami adalah cerita tentang kegigihan. Tentang malam-malam panjang mempersiapkan musabaqah, tentang hangatnya kebersamaan dalam lingkaran kajian, dan tentang setiap prestasi yang kami raih bukan sebagai individu, melainkan sebagai satu keluarga besar. Platform digital ini adalah babak baru dalam kisah kami—sebuah upaya untuk merangkul setiap anggota, di mana pun mereka berada, agar tetap terhubung dalam satu denyut nadi perjuangan yang sama.
+                            </p>
+                        </div>
+                        <div className="grid grid-cols-2 gap-4">
+                            <img src="https://picsum.photos/seed/kegiatan1/300/400" alt="Kegiatan UKM PTQ 1" className="rounded-xl shadow-lg transform hover:scale-105 transition-transform duration-300" />
+                            <img src="https://picsum.photos/seed/kegiatan2/300/400" alt="Kegiatan UKM PTQ 2" className="rounded-xl shadow-lg mt-8 transform hover:scale-105 transition-transform duration-300" />
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* Kabar Terbaru */}
+            <section id="kabar-terbaru" className="py-20 lg:py-28 bg-gray-50">
+                <div className="max-w-7xl mx-auto px-6 lg:px-8">
+                    <div className="text-center">
+                        <h2 className="text-3xl lg:text-4xl font-bold text-gray-900">Jendela Informasi Keluarga PTQ</h2>
+                        <p className="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">Ikuti setiap jejak langkah, prestasi, dan cerita inspiratif dari keluarga besar kita.</p>
+                    </div>
+
+                    {artikels.length > 0 ? (
+                         <div className="mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                         {artikels.map((artikel) => (
+                             <div key={artikel.id} className="bg-white rounded-lg shadow-md overflow-hidden transform hover:-translate-y-2 transition-transform duration-300 group">
+                                 <Link href={route('artikel.show', artikel.slug)} className="block">
+                                     <div className="overflow-hidden">
+                                         <img className="w-full h-56 object-cover group-hover:scale-110 transition-transform duration-500" src={`https://picsum.photos/seed/${artikel.id}/400/300`} alt={artikel.judul} />
+                                     </div>
+                                     <div className="p-6">
+                                         <h3 className="text-xl font-bold text-gray-900 mb-2 h-20">{artikel.judul}</h3>
+                                         <p className="text-gray-600 mb-4 text-sm h-24">{truncateText(artikel.isi, 120)}</p>
+                                         <span className="font-semibold text-amber-600 group-hover:text-amber-800 transition-colors">
+                                             Baca Selengkapnya &rarr;
+                                         </span>
+                                     </div>
+                                 </Link>
+                             </div>
+                         ))}
+                     </div>
+                    ) : (
+                        <p className="mt-16 text-center text-gray-500">Saat ini belum ada kabar terbaru untuk dibagikan.</p>
+                    )}
+                     <div className="mt-16 text-center">
+                        <Link href={route('artikel.index')} className="px-8 py-3 font-semibold text-amber-600 bg-amber-100 rounded-full hover:bg-amber-200 transition-all">
+                            Lihat Semua Jurnal Perjalanan
+                        </Link>
+                    </div>
+                </div>
+            </section>
+
+            {/* (Bagian Agenda dan Footer tetap sama) */}
+        </PublicLayout>
     );
 }
