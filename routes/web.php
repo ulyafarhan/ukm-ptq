@@ -4,6 +4,8 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Publik\AgendaController;
 use App\Http\Controllers\Publik\ArtikelController;
 use App\Http\Controllers\Publik\BerandaController;
+use App\Http\Controllers\Publik\GaleriController; // Tambahkan ini
+use App\Http\Controllers\Publik\TokoController; // Tambahkan ini
 use App\Http\Controllers\Publik\TentangKamiController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -18,6 +20,10 @@ Route::get('/tentang-kami', [TentangKamiController::class, 'index'])->name('tent
 Route::get('/jurnal', [ArtikelController::class, 'index'])->name('artikel.index');
 Route::get('/jurnal/{artikel:slug}', [ArtikelController::class, 'show'])->name('artikel.show');
 Route::get('/agenda', [AgendaController::class, 'index'])->name('agenda.index');
+Route::get('/galeri', [GaleriController::class, 'index'])->name('galeri.index'); 
+Route::get('/galeri/{album:slug}', [GaleriController::class, 'show'])->name('galeri.show');
+Route::get('/toko', [TokoController::class, 'index'])->name('toko.index'); // Rute Baru
+
 
 
 /*

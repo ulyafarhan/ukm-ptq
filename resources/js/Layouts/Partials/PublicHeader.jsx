@@ -27,6 +27,8 @@ export default function PublicHeader({ auth }) {
         { name: 'Tentang Kami', href: route('tentang-kami'), activeKey: 'tentang-kami' },
         { name: 'Jurnal', href: route('artikel.index'), activeKey: 'artikel.*' },
         { name: 'Agenda', href: route('agenda.index'), activeKey: 'agenda.index' },
+        { name: 'Galeri', href: route('galeri.index'), activeKey: 'galeri.index' },
+        { name: 'Toko', href: route('toko.index'), activeKey: 'toko.index' },
     ];
 
     return (
